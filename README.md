@@ -2,7 +2,7 @@
 
 The personal portfolio website of Simran Sajid, a 3rd-year B.Tech CSE (AI & ML) student at KIIT.
 
-A personal portfolio showcasing my projects, skills, and experience, built to highlight my work, creativity, and journey in tech.
+A personal portfolio showcasing my projects, skills, and experience. Built to highlight my work, creativity, and journey in tech. Explore my projects and learn more about what I build.
 
 ## About
 
