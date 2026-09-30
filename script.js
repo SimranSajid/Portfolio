@@ -28,11 +28,14 @@ if (reducedMotion || !("IntersectionObserver" in window)) {
 const experienceCards = document.querySelectorAll(".experience-content");
 
 if (!reducedMotion && "IntersectionObserver" in window && experienceCards.length) {
-  const experienceObserver = new IntersectionObserver((entries) => {
+  const experienceObserver = new IntersectionObserver((entries, observer) => {
     for (const entry of entries) {
-      entry.target.classList.toggle("is-visible", entry.isIntersecting);
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
     }
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
   experienceCards.forEach((card) => {
     card.classList.add("has-reveal");
