@@ -24,3 +24,18 @@ if (reducedMotion || !("IntersectionObserver" in window)) {
     revealObserver.observe(section);
   });
 }
+
+const experienceCards = document.querySelectorAll(".experience-content");
+
+if (!reducedMotion && "IntersectionObserver" in window && experienceCards.length) {
+  const experienceObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      entry.target.classList.toggle("is-visible", entry.isIntersecting);
+    }
+  }, { threshold: 0.15 });
+
+  experienceCards.forEach((card) => {
+    card.classList.add("has-reveal");
+    experienceObserver.observe(card);
+  });
+}
