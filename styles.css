@@ -102,12 +102,45 @@ body {
   from { opacity: 0; transform: translateX(60px); }
   to { opacity: 1; transform: translateX(0); }
 }
-.social-links a { display: grid; width: clamp(25px, 2.4vw, 38px); height: clamp(25px, 2.4vw, 38px); place-items: center; color: var(--text-primary); transition: color .2s ease, filter .2s ease; }
+.social-links a { position: relative; display: grid; width: clamp(25px, 2.4vw, 38px); height: clamp(25px, 2.4vw, 38px); place-items: center; color: var(--text-primary); transition: color .2s ease, filter .2s ease; }
 .social-links a:hover { color: var(--accent-primary); }
 .social-links a:focus-visible { color: var(--accent-secondary); outline: 2px solid var(--accent-secondary); outline-offset: 5px; border-radius: 3px; }
 .social-links svg { display: block; width: 100%; height: 100%; fill: currentColor; }
 .social-links a:nth-child(3) svg { fill: none; stroke: currentColor; stroke-width: 1.8; }
 .social-links a:nth-child(3) .instagram-dot { fill: currentColor; stroke: none; }
+.social-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  z-index: 1101;
+  padding: 9px 12px;
+  border: 1px solid rgba(124, 195, 255, .2);
+  border-radius: 8px;
+  background: rgba(7, 21, 33, .98);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .24);
+  color: var(--text-primary);
+  font: 600 .875rem/1 Arial, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -3px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
+}
+.social-links a:hover .social-tooltip,
+.social-links a:focus-visible .social-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+.social-links a:last-child .social-tooltip {
+  left: auto;
+  right: 0;
+  transform: translateY(-3px);
+}
+.social-links a:last-child:hover .social-tooltip,
+.social-links a:last-child:focus-visible .social-tooltip { transform: translateY(0); }
 
 .primary-nav {
   position: relative;
