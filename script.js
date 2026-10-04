@@ -234,6 +234,24 @@ if (!reducedMotion && "IntersectionObserver" in window && experienceCards.length
   });
 }
 
+const projectCards = document.querySelectorAll(".projects .project-card");
+
+if (!reducedMotion && "IntersectionObserver" in window && projectCards.length) {
+  const projectCardObserver = new IntersectionObserver((entries, observer) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.1, rootMargin: "0px" });
+
+  projectCards.forEach((card) => {
+    card.classList.add("has-reveal");
+    projectCardObserver.observe(card);
+  });
+}
+
 const navLinks = [...document.querySelectorAll(".primary-nav a[href^='#']")];
 const fixedHeader = document.querySelector(".header-row");
 const navSections = navLinks
