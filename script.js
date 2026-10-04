@@ -1,3 +1,171 @@
+const particleCanvas = document.querySelector(".particle-background");
+
+if (particleCanvas) {
+  const particleContext = particleCanvas.getContext("2d", { alpha: true });
+  if (particleContext) {
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const particles = [];
+    const maxConnectionDistance = 120;
+    const pointerConnectionDistance = 140;
+    const pointer = { x: 0, y: 0, active: false };
+    let viewportWidth = 0;
+    let viewportHeight = 0;
+    let pixelRatio = 1;
+    let frameId = 0;
+    let resizeFrameId = 0;
+    let disposed = false;
+
+    const randomBetween = (minimum, maximum) => minimum + Math.random() * (maximum - minimum);
+
+    const populateParticles = () => {
+      const isSmallScreen = window.innerWidth <= 700;
+      const targetCount = Math.round((viewportWidth * viewportHeight) / 14000);
+      const particleCount = isSmallScreen
+        ? Math.min(35, Math.max(25, targetCount))
+        : Math.min(80, Math.max(60, targetCount));
+
+      particles.length = 0;
+      for (let index = 0; index < particleCount; index += 1) {
+        const direction = randomBetween(0, Math.PI * 2);
+        const speed = randomBetween(0.2, 0.5);
+        particles.push({
+          x: randomBetween(0, viewportWidth),
+          y: randomBetween(0, viewportHeight),
+          radius: randomBetween(1, 2.5),
+          opacity: randomBetween(0.2, 0.6),
+          velocityX: Math.cos(direction) * speed,
+          velocityY: Math.sin(direction) * speed
+        });
+      }
+    };
+
+    const resizeCanvas = () => {
+      viewportWidth = window.innerWidth;
+      viewportHeight = window.innerHeight;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      particleCanvas.width = Math.round(viewportWidth * pixelRatio);
+      particleCanvas.height = Math.round(viewportHeight * pixelRatio);
+      particleContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      populateParticles();
+      requestDraw();
+    };
+
+    const drawConnections = () => {
+      particleContext.lineWidth = 0.75;
+      for (let firstIndex = 0; firstIndex < particles.length; firstIndex += 1) {
+        const first = particles[firstIndex];
+        for (let secondIndex = firstIndex + 1; secondIndex < particles.length; secondIndex += 1) {
+          const second = particles[secondIndex];
+          const distance = Math.hypot(first.x - second.x, first.y - second.y);
+          if (distance < maxConnectionDistance) {
+            particleContext.strokeStyle = `rgba(124, 195, 255, ${(1 - distance / maxConnectionDistance) * 0.25})`;
+            particleContext.beginPath();
+            particleContext.moveTo(first.x, first.y);
+            particleContext.lineTo(second.x, second.y);
+            particleContext.stroke();
+          }
+        }
+
+        if (pointer.active) {
+          const distance = Math.hypot(first.x - pointer.x, first.y - pointer.y);
+          if (distance < pointerConnectionDistance) {
+            particleContext.strokeStyle = `rgba(124, 195, 255, ${(1 - distance / pointerConnectionDistance) * 0.25})`;
+            particleContext.beginPath();
+            particleContext.moveTo(first.x, first.y);
+            particleContext.lineTo(pointer.x, pointer.y);
+            particleContext.stroke();
+          }
+        }
+      }
+    };
+
+    function requestDraw() {
+      if (!disposed && !document.hidden && !frameId) {
+        frameId = window.requestAnimationFrame(drawFrame);
+      }
+    }
+
+    function drawFrame() {
+      frameId = 0;
+      if (disposed || document.hidden) return;
+
+      particleContext.clearRect(0, 0, viewportWidth, viewportHeight);
+      particles.forEach((particle) => {
+        if (!motionPreference.matches) {
+          particle.x += particle.velocityX;
+          particle.y += particle.velocityY;
+
+          if (particle.x < 0 || particle.x > viewportWidth) particle.velocityX *= -1;
+          if (particle.y < 0 || particle.y > viewportHeight) particle.velocityY *= -1;
+          particle.x = Math.max(0, Math.min(viewportWidth, particle.x));
+          particle.y = Math.max(0, Math.min(viewportHeight, particle.y));
+        }
+      });
+
+      drawConnections();
+
+      particles.forEach((particle) => {
+
+        particleContext.beginPath();
+        particleContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        particleContext.fillStyle = `rgba(124, 195, 255, ${particle.opacity})`;
+        particleContext.fill();
+      });
+
+      if (!motionPreference.matches) requestDraw();
+    }
+
+    const handleResize = () => {
+      if (!resizeFrameId) {
+        resizeFrameId = window.requestAnimationFrame(() => {
+          resizeFrameId = 0;
+          resizeCanvas();
+        });
+      }
+    };
+    const handleMouseMove = (event) => {
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
+      pointer.active = true;
+      requestDraw();
+    };
+    const resetPointer = () => {
+      pointer.active = false;
+      requestDraw();
+    };
+    const handleVisibilityChange = () => {
+      if (!document.hidden) requestDraw();
+    };
+    const handleMotionPreferenceChange = () => {
+      if (motionPreference.matches && frameId) {
+        window.cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+      requestDraw();
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseleave", resetPointer);
+    window.addEventListener("blur", resetPointer);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    motionPreference.addEventListener("change", handleMotionPreferenceChange);
+    resizeCanvas();
+
+    window.addEventListener("pagehide", () => {
+      disposed = true;
+      window.cancelAnimationFrame(frameId);
+      window.cancelAnimationFrame(resizeFrameId);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", resetPointer);
+      window.removeEventListener("blur", resetPointer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      motionPreference.removeEventListener("change", handleMotionPreferenceChange);
+    }, { once: true });
+  }
+}
+
 const revealSections = [
   document.querySelector(".hero"),
   document.querySelector(".experience"),
