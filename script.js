@@ -1,3 +1,34 @@
+const themeToggle = document.querySelector(".theme-toggle");
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+const applyTheme = (theme, persist = false) => {
+  const nextTheme = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = nextTheme;
+  if (themeToggle) {
+    const isLight = nextTheme === "light";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+    themeToggle.setAttribute("aria-label", `Switch to ${isLight ? "dark" : "light"} mode`);
+    themeToggle.title = `Switch to ${isLight ? "dark" : "light"} mode`;
+  }
+  if (themeColorMeta) themeColorMeta.setAttribute("content", nextTheme === "light" ? "#FFEFC4" : "#071521");
+  if (persist) {
+    try {
+      localStorage.setItem("portfolio-theme", nextTheme);
+    } catch {
+      // The current session can still use the selected theme when storage is unavailable.
+    }
+  }
+  window.dispatchEvent(new Event("portfolio-theme-change"));
+};
+
+if (themeToggle) {
+  applyTheme(document.documentElement.dataset.theme);
+  themeToggle.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    applyTheme(nextTheme, true);
+  });
+}
+
 const particleCanvas = document.querySelector(".particle-background");
 
 if (particleCanvas) {
@@ -5,6 +36,7 @@ if (particleCanvas) {
   if (particleContext) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const particles = [];
+    let particleRgb = getComputedStyle(document.documentElement).getPropertyValue("--particle-rgb").trim() || "124, 195, 255";
     const maxConnectionDistance = 120;
     const pointerConnectionDistance = 140;
     const pointer = { x: 0, y: 0, active: false };
@@ -58,7 +90,7 @@ if (particleCanvas) {
           const second = particles[secondIndex];
           const distance = Math.hypot(first.x - second.x, first.y - second.y);
           if (distance < maxConnectionDistance) {
-            particleContext.strokeStyle = `rgba(124, 195, 255, ${(1 - distance / maxConnectionDistance) * 0.25})`;
+            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / maxConnectionDistance) * 0.25})`;
             particleContext.beginPath();
             particleContext.moveTo(first.x, first.y);
             particleContext.lineTo(second.x, second.y);
@@ -69,7 +101,7 @@ if (particleCanvas) {
         if (pointer.active) {
           const distance = Math.hypot(first.x - pointer.x, first.y - pointer.y);
           if (distance < pointerConnectionDistance) {
-            particleContext.strokeStyle = `rgba(124, 195, 255, ${(1 - distance / pointerConnectionDistance) * 0.25})`;
+            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / pointerConnectionDistance) * 0.25})`;
             particleContext.beginPath();
             particleContext.moveTo(first.x, first.y);
             particleContext.lineTo(pointer.x, pointer.y);
@@ -108,7 +140,7 @@ if (particleCanvas) {
 
         particleContext.beginPath();
         particleContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        particleContext.fillStyle = `rgba(124, 195, 255, ${particle.opacity})`;
+        particleContext.fillStyle = `rgba(${particleRgb}, ${particle.opacity})`;
         particleContext.fill();
       });
 
@@ -145,6 +177,10 @@ if (particleCanvas) {
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("portfolio-theme-change", () => {
+      particleRgb = getComputedStyle(document.documentElement).getPropertyValue("--particle-rgb").trim() || particleRgb;
+      requestDraw();
+    });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mouseleave", resetPointer);
     window.addEventListener("blur", resetPointer);

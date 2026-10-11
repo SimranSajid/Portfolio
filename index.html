@@ -3,8 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050d18">
+  <meta name="theme-color" content="#071521">
   <title>Simran Sajid | Portfolio</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("portfolio-theme");
+      document.documentElement.dataset.theme = savedTheme === "light" ? "light" : "dark";
+    } catch {
+      document.documentElement.dataset.theme = "dark";
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
@@ -25,6 +33,10 @@
       <a class="primary-nav-upcoming" href="#certificates">Certificates</a>
     </nav>
     <nav class="social-links" aria-label="Social media">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false" title="Switch to light mode">
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.6"/><path d="M12 2v2.2m0 15.6V22m10-10h-2.2M4.2 12H2m17.07-7.07-1.56 1.56M6.49 17.51l-1.56 1.56m14.14 0-1.56-1.56M6.49 6.49 4.93 4.93"/></svg>
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.7 8.7 0 0 1 8.6 3.8 8.9 8.9 0 1 0 20.2 15.4Z"/></svg>
+      </button>
       <a href="https://www.linkedin.com/in/simran-sajid-89a062325?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.74H4.98V9.23h2.95v9.51ZM6.45 7.93a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.81H15.8v-4.63c0-1.1-.02-2.52-1.54-2.52-1.54 0-1.78 1.2-1.78 2.44v4.71H9.54V9.23h2.82v1.3h.04c.39-.75 1.35-1.54 2.78-1.54 2.98 0 3.57 1.96 3.57 4.51v5.24Z"/></svg>
         <span class="social-tooltip" aria-hidden="true">LinkedIn</span>
