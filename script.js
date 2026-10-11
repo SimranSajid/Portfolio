@@ -254,6 +254,49 @@ if (!reducedMotion && "IntersectionObserver" in window && projectCards.length) {
 
 const navLinks = [...document.querySelectorAll(".primary-nav a[href^='#']")];
 const fixedHeader = document.querySelector(".header-row");
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+const mobileMenuBackdrop = document.querySelector(".mobile-menu-backdrop");
+const primaryNavigation = document.querySelector(".primary-nav");
+
+if (mobileMenuToggle && mobileMenuBackdrop && primaryNavigation) {
+  const mobileMenuQuery = window.matchMedia("(max-width: 700px)");
+  let previousFocus = null;
+
+  const setMobileMenuOpen = (isOpen) => {
+    document.documentElement.classList.toggle("mobile-menu-open", isOpen);
+    mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+    mobileMenuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    primaryNavigation.setAttribute("aria-hidden", String(mobileMenuQuery.matches && !isOpen));
+    if (isOpen) {
+      previousFocus = document.activeElement;
+      primaryNavigation.querySelector("a")?.focus({ preventScroll: true });
+    } else if (previousFocus instanceof HTMLElement) {
+      if (previousFocus.getClientRects().length) previousFocus.focus({ preventScroll: true });
+      else previousFocus.blur();
+      previousFocus = null;
+    }
+  };
+
+  mobileMenuToggle.addEventListener("click", () => {
+    setMobileMenuOpen(mobileMenuToggle.getAttribute("aria-expanded") !== "true");
+  });
+  mobileMenuBackdrop.addEventListener("click", () => setMobileMenuOpen(false));
+  primaryNavigation.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("a")) setMobileMenuOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && mobileMenuToggle.getAttribute("aria-expanded") === "true") {
+      setMobileMenuOpen(false);
+      mobileMenuToggle.focus({ preventScroll: true });
+    }
+  });
+  mobileMenuQuery.addEventListener("change", (event) => {
+    if (!event.matches) setMobileMenuOpen(false);
+    primaryNavigation.setAttribute("aria-hidden", String(event.matches));
+  });
+  primaryNavigation.setAttribute("aria-hidden", String(mobileMenuQuery.matches));
+}
+
 const navSections = navLinks
   .map((link) => {
     const targetSelector = link.getAttribute("href");

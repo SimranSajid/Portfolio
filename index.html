@@ -14,7 +14,10 @@
   <canvas class="particle-background" aria-hidden="true"></canvas>
   <header class="header-row">
     <img class="site-signature" src="assets/simran-sajid-signature.png" alt="Simran Sajid signature" width="500" height="211">
-    <nav class="primary-nav" aria-label="Main navigation">
+    <button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="primary-nav" id="primary-navigation" aria-label="Main navigation">
       <a href="#about">About</a>
       <a href="#technologies">Technologies</a>
       <a href="#experience">Experience</a>
@@ -36,6 +39,7 @@
       </a>
     </nav>
   </header>
+  <button class="mobile-menu-backdrop" type="button" aria-label="Close navigation menu" tabindex="-1"></button>
   <main>
     <section class="hero" id="about" aria-labelledby="hero-title">
       <div class="hero-copy">
@@ -150,6 +154,17 @@
           </div>
           <p class="project-description">Developing an AI-powered career mentorship platform with LinkedIn profile analysis, interactive dashboards, chatbot-based guidance, and personalized career recommendations.</p>
           <p class="project-stack"><strong>Tech Stack:</strong> React, Vite, JavaScript, Django REST Framework, Groq Llama 3.3 70B, FastEmbed</p>
+        </article>
+
+        <article class="project-card">
+          <header class="project-card-header">
+            <h3>Weather WebApp</h3>
+          </header>
+          <div class="project-links" role="group" aria-label="Weather WebApp project links">
+            <a class="project-link-label" href="https://weather-web-app-rho-hazel.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+          </div>
+          <p class="project-description">Developed a responsive weather web application providing real-time weather information for cities and locations worldwide using weather API integration.</p>
+          <p class="project-stack"><strong>Tech Stack:</strong> HTML, CSS, JavaScript, Open-Meteo API</p>
         </article>
       </div>
     </section>
