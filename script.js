@@ -36,7 +36,16 @@ if (particleCanvas) {
   if (particleContext) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const particles = [];
-    let particleRgb = getComputedStyle(document.documentElement).getPropertyValue("--particle-rgb").trim() || "124, 195, 255";
+    const readParticleTheme = () => {
+      const themeStyles = getComputedStyle(document.documentElement);
+      particleRgb = themeStyles.getPropertyValue("--particle-rgb").trim() || particleRgb;
+      particleDotOpacityScale = Number.parseFloat(themeStyles.getPropertyValue("--particle-dot-opacity-scale")) || 1;
+      particleLineOpacity = Number.parseFloat(themeStyles.getPropertyValue("--particle-line-opacity")) || 0.25;
+    };
+    let particleRgb = "124, 195, 255";
+    let particleDotOpacityScale = 1;
+    let particleLineOpacity = 0.25;
+    readParticleTheme();
     const maxConnectionDistance = 120;
     const pointerConnectionDistance = 140;
     const pointer = { x: 0, y: 0, active: false };
@@ -90,7 +99,7 @@ if (particleCanvas) {
           const second = particles[secondIndex];
           const distance = Math.hypot(first.x - second.x, first.y - second.y);
           if (distance < maxConnectionDistance) {
-            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / maxConnectionDistance) * 0.25})`;
+            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / maxConnectionDistance) * particleLineOpacity})`;
             particleContext.beginPath();
             particleContext.moveTo(first.x, first.y);
             particleContext.lineTo(second.x, second.y);
@@ -101,7 +110,7 @@ if (particleCanvas) {
         if (pointer.active) {
           const distance = Math.hypot(first.x - pointer.x, first.y - pointer.y);
           if (distance < pointerConnectionDistance) {
-            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / pointerConnectionDistance) * 0.25})`;
+            particleContext.strokeStyle = `rgba(${particleRgb}, ${(1 - distance / pointerConnectionDistance) * particleLineOpacity})`;
             particleContext.beginPath();
             particleContext.moveTo(first.x, first.y);
             particleContext.lineTo(pointer.x, pointer.y);
@@ -140,7 +149,7 @@ if (particleCanvas) {
 
         particleContext.beginPath();
         particleContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        particleContext.fillStyle = `rgba(${particleRgb}, ${particle.opacity})`;
+        particleContext.fillStyle = `rgba(${particleRgb}, ${Math.min(1, particle.opacity * particleDotOpacityScale)})`;
         particleContext.fill();
       });
 
@@ -178,7 +187,7 @@ if (particleCanvas) {
 
     window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("portfolio-theme-change", () => {
-      particleRgb = getComputedStyle(document.documentElement).getPropertyValue("--particle-rgb").trim() || particleRgb;
+      readParticleTheme();
       requestDraw();
     });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -220,7 +229,14 @@ if (reducedMotion || !("IntersectionObserver" in window)) {
   const revealObserver = new IntersectionObserver((entries, observer) => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
+        if (entry.target.matches(".hero")) {
+          requestAnimationFrame(() => {
+            entry.target.classList.add("is-animating");
+            requestAnimationFrame(() => entry.target.classList.add("is-visible"));
+          });
+        } else {
+          entry.target.classList.add("is-visible");
+        }
         if (entry.target.matches(".certificates")) {
           entry.target.querySelectorAll(".certificate-card").forEach((card) => card.classList.add("is-visible"));
         }
@@ -293,10 +309,23 @@ const fixedHeader = document.querySelector(".header-row");
 const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
 const mobileMenuBackdrop = document.querySelector(".mobile-menu-backdrop");
 const primaryNavigation = document.querySelector(".primary-nav");
+const socialLinks = document.querySelector(".social-links");
+const themeToggleHome = themeToggle?.parentElement;
 
 if (mobileMenuToggle && mobileMenuBackdrop && primaryNavigation) {
   const mobileMenuQuery = window.matchMedia("(max-width: 700px)");
   let previousFocus = null;
+
+  const updateThemeTogglePlacement = () => {
+    if (!themeToggle || !themeToggleHome) return;
+    if (mobileMenuQuery.matches && themeToggle.parentElement !== primaryNavigation) {
+      primaryNavigation.prepend(themeToggle);
+    } else if (!mobileMenuQuery.matches && themeToggle.parentElement !== themeToggleHome) {
+      themeToggleHome.insertBefore(themeToggle, socialLinks);
+    }
+  };
+
+  updateThemeTogglePlacement();
 
   const setMobileMenuOpen = (isOpen) => {
     document.documentElement.classList.toggle("mobile-menu-open", isOpen);
@@ -328,6 +357,7 @@ if (mobileMenuToggle && mobileMenuBackdrop && primaryNavigation) {
   });
   mobileMenuQuery.addEventListener("change", (event) => {
     if (!event.matches) setMobileMenuOpen(false);
+    updateThemeTogglePlacement();
     primaryNavigation.setAttribute("aria-hidden", String(event.matches));
   });
   primaryNavigation.setAttribute("aria-hidden", String(mobileMenuQuery.matches));
