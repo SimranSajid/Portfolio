@@ -2,11 +2,13 @@
 
 The personal portfolio website of Simran Sajid, a 3rd-year B.Tech CSE (AI & ML) student at KIIT.
 
+**Live site:** [simran-sajid10.vercel.app](https://simran-sajid10.vercel.app)
+
 A personal portfolio showcasing my projects, skills, and experience. Built to highlight my work, creativity, and journey in tech. Explore my projects and learn more about what I build.
 
 ## About
 
-This portfolio presents my experience, projects, and interests in technology, software development, artificial intelligence and machine learning, and web development.
+I am a B.Tech CSE (AI & ML) student at KIIT with a strong passion for technology, innovation, and artificial intelligence. Skilled in Python, C++, Django, and web development technologies (HTML/CSS), I focus on building impactful solutions to real-world challenges. Driven by problem-solving and creative collaboration, I am always eager to learn, grow, and contribute to meaningful tech projects.
 
 ## Technologies
 
@@ -38,7 +40,7 @@ The website currently represents these technologies:
 
 ## Projects
 
-The portfolio presents these projects in an interactive carousel. It advances automatically and also supports pause/play, previous/next controls, pagination, keyboard navigation, and touch swiping.
+The portfolio presents four projects in an interactive carousel. It advances forward automatically with a 3.8-second interval and a 400 ms slide transition. Pause/play, previous/next controls, pagination, keyboard navigation, and touch swiping are also supported.
 
 ### IoT-Based Air Defence Detection and Response System
 
@@ -69,6 +71,22 @@ Developing an AI-powered career mentorship platform with LinkedIn profile analys
 **Frontend:** [ai-career-mentor](https://github.com/SimranSajid/ai-career-mentor)  
 **Backend:** [ai-career-mentor-backend](https://github.com/SimranSajid/ai-career-mentor-backend)
 
+### Weather WebApp
+
+Developed a responsive weather application that provides real-time weather information for cities and locations worldwide using the Open-Meteo API.
+
+- **Tech stack:** HTML, CSS, JavaScript, Open-Meteo API
+- **Live demo:** [weather-web-app-rho-hazel.vercel.app](https://weather-web-app-rho-hazel.vercel.app/)
+
+## Certificates
+
+- **HackOrbit’26 Hackathon** — Team Semicolon; collaborated on and presented a technical solution.
+- **KIIT Fest’26** — Technical Organizing Committee; contributed to the event’s technical organization and execution.
+- **Machine Learning Workshop** — “The Imitation Game”; KIIT Robotics Society certificate of participation.
+- **GitHub Workshop** — K-1000; GitHub and version control workshop certificate.
+- **Python Training** — Lakshya Institute of Technology (LIT); two-month certified Python programming training.
+- **Data Structures with C** — Aztech Technology & Engineers Pvt. Ltd.; 45-day (90-hour) training, Grade A.
+
 ## Tech Stack
 
 The portfolio website itself is built with:
@@ -92,8 +110,10 @@ The portfolio website itself is built with:
 
 This is a static HTML, CSS, and JavaScript site and does not require a build step. Open `index.html` in a browser, or serve the project directory with a local static file server.
 
-## Contact / Social Links
+## Let’s Connect
 
+- Email: [simransajid38@gmail.com](mailto:simransajid38@gmail.com)
+- WhatsApp: [+91 9631978494](https://wa.me/919631978494)
 - [LinkedIn](https://www.linkedin.com/in/simran-sajid-89a062325)
 - [GitHub](https://github.com/SimranSajid)
 - [Instagram](https://www.instagram.com/simra.nn10/)
