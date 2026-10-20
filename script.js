@@ -424,9 +424,8 @@ if (projectCarousel) {
     const setTrackPosition = () => {
       const activeCard = projectTrack.children[activeTrackIndex];
       if (!activeCard) return;
-      const trackGap = Number.parseFloat(getComputedStyle(projectTrack).columnGap) || 0;
-      const cardWidth = activeCard.getBoundingClientRect().width;
-      const cardOffset = activeTrackIndex * (cardWidth + trackGap);
+      const cardWidth = activeCard.offsetWidth;
+      const cardOffset = activeCard.offsetLeft;
       const translateX = (projectViewport.clientWidth - cardWidth) / 2 - cardOffset;
       projectTrack.style.transform = `translate3d(${translateX}px, 0, 0)`;
     };

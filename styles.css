@@ -1394,6 +1394,10 @@ h1 {
 }
 
 /* Responsive projects */
+@media (min-width: 761px) and (max-width: 1024px) {
+  .project-card { flex-basis: min(68vw, 620px); }
+}
+
 @media (max-width: 760px) {
   .projects { margin-top: 0; padding: 2rem 5% 2.5rem; }
   .project-carousel { margin-top: 1.2rem; }
@@ -1402,16 +1406,18 @@ h1 {
   .project-carousel-button { width: 42px; height: 42px; }
   .project-viewport { padding: 16px 0 20px; }
   .project-list { gap: 1rem; }
-  .project-card { flex-basis: min(82vw, 460px); min-height: 0; padding: clamp(18px, 4vw, 25px); border-radius: 24px; }
+  .project-card { flex-basis: min(calc(90vw - 16px), 620px); min-height: 0; height: auto; padding: clamp(18px, 4vw, 25px); border-radius: 24px; }
   .project-card-header { display: block; }
   .project-card-header h3 { font-size: clamp(19px, 4.5vw, 23px); }
   .project-date { margin-top: 6px; text-align: left; }
   .project-links { margin-top: 10px; }
   .project-description { margin-top: 12px; font-size: 15px; }
   .project-stack { font-size: 13px; }
+  .project-card-header h3,
+  .project-description,
+  .project-stack { max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
 }
 @media (max-width: 480px) {
-  .project-card { flex-basis: calc(100vw - 64px); }
   .project-carousel-pagination { gap: 12px; }
 }
 
