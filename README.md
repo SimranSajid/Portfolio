@@ -29,13 +29,22 @@ The website currently represents these technologies:
 - Joined the Event Management Team, contributing to the planning, coordination, and execution of college events.
 - Promoted to Junior Strategy Analyst (OSG), supporting strategic planning, organizational development, and policy evaluation initiatives.
 
+### Served as ND Cadre, Central School Council | Notre Dame Academy
+
+**2023 – 2024**
+
+- Contributed to the planning, coordination, and smooth execution of various school events and activities.
+- Took on leadership responsibilities while strengthening teamwork, communication, and organizational skills.
+
 ## Projects
+
+The portfolio presents these projects in an interactive carousel. It advances automatically and also supports pause/play, previous/next controls, pagination, keyboard navigation, and touch swiping.
 
 ### IoT-Based Air Defence Detection and Response System
 
 **2024 – 2025**
 
-Built a real-time radar-based object detection and threat response system using ESP32 and HC-SR04, with automated alerts, servo tracking, and remote monitoring through Blynk IoT.
+Built a real-time radar-based object detection and threat response system using an ESP32 and HC-SR04 sensor. The system includes automated alerts, servo tracking, and remote monitoring through Blynk IoT.
 
 **Tech stack:** ESP32, HC-SR04, Embedded C, Blynk IoT, Servo Motor  
 **GitHub:** [Air Defense System](https://github.com/SimranSajid/Air_Defense_System)
@@ -44,7 +53,7 @@ Built a real-time radar-based object detection and threat response system using 
 
 **May 2026 – Jun. 2026**
 
-Developed a secure password manager with encrypted credential storage, Django authentication, CSRF protection, password generation, category management, and responsive UI.
+Developed a responsive secure password manager with encrypted credential storage, Django authentication, CSRF protection, password generation, and category management.
 
 **Tech stack:** Django, Python, SQLite, Bootstrap 5, Fernet Encryption  
 **Live demo:** [pass-vault-omega.vercel.app](https://pass-vault-omega.vercel.app/)  
@@ -54,7 +63,7 @@ Developed a secure password manager with encrypted credential storage, Django au
 
 **Jul. 2026 – Present**
 
-Developing an AI-powered career mentorship platform with LinkedIn profile analysis, interactive dashboards, chatbot-based guidance, and personalized career recommendations.
+Developing an AI-powered career mentorship platform with LinkedIn profile analysis, interactive dashboards, chatbot guidance, and personalized career recommendations.
 
 **Tech stack:** React, Vite, JavaScript, Django REST Framework, Groq Llama 3.3 70B, FastEmbed  
 **Frontend:** [ai-career-mentor](https://github.com/SimranSajid/ai-career-mentor)  
