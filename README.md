@@ -70,12 +70,18 @@ The portfolio website itself is built with:
 
 ## Features
 
-- Responsive portfolio layout
-- Animated section headings and scroll-based reveal animations
-- Interactive technology icons with hover effects
-- Project cards with links
-- Social media links
+- Responsive, single-page portfolio with About, Technologies, Experience, Projects, Certificates, and contact sections
+- Dark and light themes; dark is the default for a new session, and the selected theme is preserved across refreshes in that session
+- Animated startup screen with a rotating wireframe cube and loading progress
+- Animated particle-constellation background with pointer connections
+- Scroll-triggered section reveals and animated navigation state
+- Interactive technology cards and certificate links
+- Project carousel with forward autoplay, pause/play, previous/next controls, pagination, keyboard navigation, and touch swiping
 - Reduced-motion support
+
+## Run locally
+
+This is a static HTML, CSS, and JavaScript site and does not require a build step. Open `index.html` in a browser, or serve the project directory with a local static file server.
 
 ## Contact / Social Links
 
